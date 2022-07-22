@@ -41,7 +41,7 @@ function CharacterList() {
 
       <Divider />
 
-      <Box maxW="300px" mx="auto" my="4">
+      <Box maxW="300px" mx="auto" my="4" display={!data ? "none" : undefined}>
         <Flex justify="space-between">
           <Button
             onClick={nextPage}

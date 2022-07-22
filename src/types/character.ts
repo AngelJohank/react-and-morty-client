@@ -19,7 +19,7 @@ export interface Character {
   created: string;
 }
 
-export interface Response {
+export interface CharacterResponse {
   info: {
     count: number;
     next: string | null;

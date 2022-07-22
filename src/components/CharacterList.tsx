@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Response } from "../types/character";
+import { CharacterResponse } from "../types/character";
 import { Button, Flex } from "@chakra-ui/react";
 
 import useFetch from "../hooks/useFetch";
@@ -7,7 +7,7 @@ import CharacterItem from "./CharacterItem";
 
 function CharacterList() {
   const [api, setApi] = useState("https://rickandmortyapi.com/api/character");
-  const { data, status } = useFetch<Response>(api);
+  const { data, status } = useFetch<CharacterResponse>(api);
 
   const nextPage = () => {
     if (data?.info.next) {

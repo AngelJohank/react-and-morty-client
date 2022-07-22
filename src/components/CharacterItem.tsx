@@ -1,22 +1,7 @@
 import { Character } from "../types/character";
-import {
-  Badge,
-  Box,
-  Text,
-  Image,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from "@chakra-ui/react";
+import { Badge, Box, Text, Image } from "@chakra-ui/react";
 
 function CharacterItem({ name, status, gender, origin, image }: Character) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <Box
       w="sm"
@@ -28,10 +13,9 @@ function CharacterItem({ name, status, gender, origin, image }: Character) {
     >
       <Image
         src={image}
-        onClick={onOpen}
+        title={name}
         w="100%"
         h="300px"
-        cursor="pointer"
         objectFit="cover"
         loading="lazy"
       />
@@ -53,23 +37,6 @@ function CharacterItem({ name, status, gender, origin, image }: Character) {
           {name}
         </Text>
       </Box>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{name}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Image
-              src={image}
-              onClick={onOpen}
-              w="100%"
-              h="300px"
-              objectFit="cover"
-            />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
     </Box>
   );
 }

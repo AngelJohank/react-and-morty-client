@@ -1,11 +1,10 @@
 import { useState } from "react";
 
 import CharacterItem from "./CharacterItem";
-import { Button, Flex } from "@chakra-ui/react";
+import { Alert, Box, Button, Divider, Flex } from "@chakra-ui/react";
 
 import useFetch from "../hooks/useFetch";
 import { CharacterResponse } from "../types/character";
-
 
 function CharacterList() {
   const [api, setApi] = useState("https://rickandmortyapi.com/api/character");
@@ -25,33 +24,43 @@ function CharacterList() {
 
   return (
     <div>
-      <div>
-        <Button
-          colorScheme="purple"
-          variant="outline"
-          onClick={nextPage}
-          disabled={data?.info.next === null || !data}
-        >
-          Next Page
-        </Button>
-        <Button
-          colorScheme="whatsapp"
-          variant="outline"
-          onClick={prevPage}
-          disabled={data?.info.prev === null || !data}
-        >
-          Prev Page
-        </Button>
-      </div>
-
       <Flex wrap="wrap" justify="space-evenly">
-        {status === "loading" && "Loading characters"}
-        {status === "error" && "There was an error loading the characters"}
+        {status === "loading" && (
+          <Alert colorScheme="green">Loading the characters</Alert>
+        )}
+        {status === "error" && (
+          <Alert colorScheme="red">
+            There was an error loading the characters :(
+          </Alert>
+        )}
         {status === "loaded" &&
           data?.results.map((character) => (
             <CharacterItem key={character.id} {...character} />
           ))}
       </Flex>
+
+      <Divider />
+
+      <Box maxW="300px" mx="auto" my="4">
+        <Flex justify="space-between">
+          <Button
+            onClick={nextPage}
+            disabled={data?.info.next === null || !data}
+            borderRadius='3xl'
+            colorScheme="purple"
+          >
+            Next Page
+          </Button>
+          <Button
+            onClick={prevPage}
+            disabled={data?.info.prev === null || !data}
+            borderRadius='3xl'
+            colorScheme="whatsapp"
+          >
+            Prev Page
+          </Button>
+        </Flex>
+      </Box>
     </div>
   );
 }

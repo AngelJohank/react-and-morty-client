@@ -40,27 +40,6 @@ function CharacterList() {
       </Flex>
 
       <Divider />
-
-      <Box maxW="300px" mx="auto" my="4" display={!data ? "none" : undefined}>
-        <Flex justify="space-between">
-          <Button
-            onClick={nextPage}
-            disabled={data?.info.next === null || !data}
-            borderRadius="3xl"
-            colorScheme="purple"
-          >
-            Next Page
-          </Button>
-          <Button
-            onClick={prevPage}
-            disabled={data?.info.prev === null || !data}
-            borderRadius="3xl"
-            colorScheme="whatsapp"
-          >
-            Prev Page
-          </Button>
-        </Flex>
-      </Box>
     </div>
   );
 }

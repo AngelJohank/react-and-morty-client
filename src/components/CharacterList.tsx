@@ -46,7 +46,7 @@ function CharacterList() {
           <Button
             onClick={nextPage}
             disabled={data?.info.next === null || !data}
-            borderRadius='3xl'
+            borderRadius="3xl"
             colorScheme="purple"
           >
             Next Page
@@ -54,7 +54,7 @@ function CharacterList() {
           <Button
             onClick={prevPage}
             disabled={data?.info.prev === null || !data}
-            borderRadius='3xl'
+            borderRadius="3xl"
             colorScheme="whatsapp"
           >
             Prev Page

@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { CharacterResponse } from "../types/character";
+
+import CharacterItem from "./CharacterItem";
 import { Button, Flex } from "@chakra-ui/react";
 
 import useFetch from "../hooks/useFetch";
-import CharacterItem from "./CharacterItem";
+import { CharacterResponse } from "../types/character";
+
 
 function CharacterList() {
   const [api, setApi] = useState("https://rickandmortyapi.com/api/character");

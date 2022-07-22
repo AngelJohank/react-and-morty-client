@@ -16,9 +16,8 @@ function useFetch<T>(url: string) {
         const PARSED = await RESPONSE.json();
         setStatus("loaded");
         setData(PARSED);
-      } catch (e) {
+      } catch {
         setStatus("error");
-        throw new Error((e as Error).message);
       }
     })();
   }, [url]);

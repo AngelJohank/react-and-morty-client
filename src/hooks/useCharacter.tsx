@@ -4,12 +4,18 @@ import { status } from "../types/status";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function useCharacter(pageNumber: number) {
+function useCharacter() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [status, setStatus] = useState<status>("loading");
+  const [pageNumber, setPageNumber] = useState(1);
   const [hasMore, setHasMore] = useState(true); // True to show a loader  at the beginning
 
   const API = "https://rickandmortyapi.com/api/character";
+
+  // Advance Page
+  const goNext = () => {
+    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+  };
 
   // Fetch Pages
   useEffect(() => {
@@ -57,7 +63,7 @@ function useCharacter(pageNumber: number) {
     };
   }, [pageNumber]);
 
-  return { characters, status, hasMore };
+  return { characters, status, hasMore, goNext, pageNumber };
 }
 
 export default useCharacter;

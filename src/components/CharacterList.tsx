@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Box, Image, Center, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Center, Flex, Spinner } from "@chakra-ui/react";
 
 import useCharacter from "../hooks/useCharacter";
 
@@ -7,12 +6,7 @@ import InfiniteScroll from "./InfiniteScroll";
 import CharacterItem from "./CharacterItem";
 
 function CharacterList() {
-  const [pageNumber, setPageNumber] = useState(1);
-  const { characters, status, hasMore } = useCharacter(pageNumber);
-
-  const goNext = () => {
-    setPageNumber((prevPageNumber) => prevPageNumber + 1);
-  };
+  const { characters, status, hasMore, goNext } = useCharacter();
 
   return (
     <div>

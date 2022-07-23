@@ -1,14 +1,13 @@
 import { Character, CharacterResponse } from "../types/character";
+import { status } from "../types/status";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-type status = "loading" | "success" | "error";
-
 function useCharacter(pageNumber: number) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [status, setStatus] = useState<status>("loading");
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // True to show a loader  at the beginning
 
   const API = "https://rickandmortyapi.com/api/character";
 

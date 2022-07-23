@@ -1,42 +1,47 @@
-import { useState, useRef, useCallback } from "react";
-import { Center, Flex, Spinner } from "@chakra-ui/react";
-import CharacterItem from "./CharacterItem";
+import { useState } from "react";
+import { Box, Image, Center, Flex, Spinner } from "@chakra-ui/react";
 
 import useCharacter from "../hooks/useCharacter";
+
+import InfiniteScroll from "./InfiniteScroll";
+import CharacterItem from "./CharacterItem";
 
 function CharacterList() {
   const [pageNumber, setPageNumber] = useState(1);
   const { characters, status, hasMore } = useCharacter(pageNumber);
 
-  const observer = useRef<IntersectionObserver>();
-  const loaderItem = useCallback(
-    (node: HTMLDivElement) => {
-      if (status === "loading") return;
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore)
-          setPageNumber((prevPageNumber) => prevPageNumber + 1);
-      });
-
-      if (node) observer.current.observe(node);
-    },
-    [status, hasMore]
-  );
+  const goNext = () => {
+    setPageNumber((prevPageNumber) => prevPageNumber + 1);
+  };
 
   return (
     <div>
-      <Flex wrap="wrap" justify="space-evenly">
-        {characters.map((character) => (
-          <CharacterItem key={character.id} {...character} />
-        ))}
-      </Flex>
-
-      <div ref={loaderItem}>
-        <Center my="4">
-          <Spinner />
-        </Center>
-      </div>
+      <InfiniteScroll
+        status={status}
+        hasMore={hasMore}
+        goNext={goNext}
+        loader={
+          <Center my="4">
+            <Spinner />
+          </Center>
+        }
+        errorMessage={
+          <Box>
+            <Center>There was an error</Center>
+          </Box>
+        }
+        endMessage={
+          <Box>
+            <Center>You have reached the end!</Center>
+          </Box>
+        }
+      >
+        <Flex wrap="wrap" justify="space-evenly">
+          {characters.map((character) => (
+            <CharacterItem key={character.id} {...character} />
+          ))}
+        </Flex>
+      </InfiniteScroll>
     </div>
   );
 }

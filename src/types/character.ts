@@ -22,9 +22,9 @@ export interface Character {
 export interface CharacterResponse {
   info: {
     count: number;
-    next: string | null;
+    next: string;
     pages: number;
-    prev: string | null;
+    prev: string;
   };
   results: Character[];
 }

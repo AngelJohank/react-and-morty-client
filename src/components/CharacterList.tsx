@@ -1,45 +1,42 @@
-import { useState } from "react";
-
+import { useState, useRef, useCallback } from "react";
+import { Center, Flex, Spinner } from "@chakra-ui/react";
 import CharacterItem from "./CharacterItem";
-import { Alert, Box, Button, Divider, Flex } from "@chakra-ui/react";
 
-import useFetch from "../hooks/useFetch";
-import { CharacterResponse } from "../types/character";
+import useCharacter from "../hooks/useCharacter";
 
 function CharacterList() {
-  const [api, setApi] = useState("https://rickandmortyapi.com/api/character");
-  const { data, status } = useFetch<CharacterResponse>(api);
+  const [pageNumber, setPageNumber] = useState(1);
+  const { characters, status, hasMore } = useCharacter(pageNumber);
 
-  const nextPage = () => {
-    if (data?.info.next) {
-      setApi(data.info.next);
-    }
-  };
+  const observer = useRef<IntersectionObserver>();
+  const loaderItem = useCallback(
+    (node: HTMLDivElement) => {
+      if (status === "loading") return;
+      if (observer.current) observer.current.disconnect();
 
-  const prevPage = () => {
-    if (data?.info.prev) {
-      setApi(data.info.prev);
-    }
-  };
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore)
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [status, hasMore]
+  );
 
   return (
     <div>
       <Flex wrap="wrap" justify="space-evenly">
-        {status === "loading" && (
-          <Alert colorScheme="green">Loading the characters</Alert>
-        )}
-        {status === "error" && (
-          <Alert colorScheme="red">
-            There was an error loading the characters :(
-          </Alert>
-        )}
-        {status === "loaded" &&
-          data?.results.map((character) => (
-            <CharacterItem key={character.id} {...character} />
-          ))}
+        {characters.map((character) => (
+          <CharacterItem key={character.id} {...character} />
+        ))}
       </Flex>
 
-      <Divider />
+      <div ref={loaderItem}>
+        <Center my="4">
+          <Spinner />
+        </Center>
+      </div>
     </div>
   );
 }
